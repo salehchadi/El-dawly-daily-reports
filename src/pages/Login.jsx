@@ -47,7 +47,12 @@ export default function Login() {
       navigate("/dashboard");
     } catch (err) {
       if (err.message === "ACCOUNT_PENDING") {
-        setToast({ message: "Your account is pending admin approval.", type: "info" });
+        if (mode === "signup") {
+          setToast({ message: "تم التسجيل بنجاح! الأكونت بتاعك قيد المراجعة من الإدارة.", type: "success" });
+          setMode("login");
+        } else {
+          setToast({ message: "الأكونت لسه متفعلش من الإدارة، اصبر شوية.", type: "warning" });
+        }
       } else {
         setToast({ message: err.message || "Something went wrong", type: "error" });
       }

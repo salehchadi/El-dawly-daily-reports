@@ -132,7 +132,7 @@ export default function CalendarView({ reports = [], deadlines = [], onExcuseSub
     <div className="calendar" style={{ width: "100%" }}>
       <div className="calendar__header">
         <button className="calendar__nav" onClick={prevMonth}><ChevronLeft size={24} /></button>
-        <h3 className="calendar__month" style={{ fontSize: "2.5rem" }}>{monthLabel}</h3>
+        <h3 className="calendar__month">{monthLabel}</h3>
         <button className="calendar__nav" onClick={nextMonth}><ChevronRight size={24} /></button>
       </div>
 
@@ -145,12 +145,12 @@ export default function CalendarView({ reports = [], deadlines = [], onExcuseSub
       <div className="calendar__grid-wrapper">
         <div className="calendar__weekdays">
           {["حد", "اتنين", "تلات", "اربع", "خميس", "جمعة", "سبت"].map((d) => (
-            <span key={d} className="calendar__weekday" style={{ fontSize: "1.5rem" }}>{d}</span>
+            <span key={d} className="calendar__weekday">{d}</span>
           ))}
         </div>
 
         {weeks.map((week, wi) => (
-          <div key={wi} className="calendar__week" style={{ gap: "12px", marginBottom: "12px" }}>
+          <div key={wi} className="calendar__week">
             {week.map((day, di) => {
               if (day === null) {
                 return <span key={di} className="calendar__cell calendar__cell--empty" />;
@@ -186,7 +186,7 @@ export default function CalendarView({ reports = [], deadlines = [], onExcuseSub
                   key={di}
                   className={`calendar__cell ${statusClass} ${isToday ? "calendar__cell--today" : ""}`}
                   onClick={() => handleCellClick(report, dateStr, isRed, isFuture, isTodayEmpty)}
-                  style={{ border: "4px solid #000", fontFamily: "inherit", fontSize: "2rem", aspectRatio: "1/1", width: "100%", position: "relative" }}
+                  style={{ border: "4px solid #000", fontFamily: "inherit", aspectRatio: "1/1", width: "100%", position: "relative" }}
                 >
                   {day}
                   

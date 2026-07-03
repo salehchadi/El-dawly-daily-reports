@@ -413,7 +413,7 @@ a:hover { background: var(--color-warning); color: var(--color-dark); }
 }
 
 .calendar__month {
-  font-size: 1.8rem;
+  font-size: 2.5rem;
   font-weight: 900;
   text-transform: uppercase;
 }
@@ -436,19 +436,23 @@ a:hover { background: var(--color-warning); color: var(--color-dark); }
 .calendar__weekdays {
   display: grid;
   grid-template-columns: repeat(7, 1fr);
+  gap: 12px;
   text-align: center;
   font-weight: 900;
-  font-size: 1.2rem;
   margin-bottom: 0.5rem;
   border-bottom: 3px solid var(--color-dark);
   padding-bottom: 0.5rem;
 }
 
+.calendar__weekday {
+  font-size: 1.5rem;
+}
+
 .calendar__week {
   display: grid;
   grid-template-columns: repeat(7, 1fr);
-  gap: 8px;
-  margin-bottom: 8px;
+  gap: 12px;
+  margin-bottom: 12px;
 }
 
 .calendar__cell {
@@ -456,7 +460,7 @@ a:hover { background: var(--color-warning); color: var(--color-dark); }
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 1.5rem;
+  font-size: 2rem;
   font-weight: 900;
   border: 3px solid var(--color-dark);
   background: #fff;
@@ -501,7 +505,10 @@ a:hover { background: var(--color-warning); color: var(--color-dark); }
   .dashboard__layout { flex-direction: column; padding: 1rem; }
   .dashboard__sidebar { width: 100%; }
   .dashboard__forms { grid-template-columns: 1fr; gap: 1rem; }
-  .calendar__cell { font-size: 1rem; }
-  .calendar__month { font-size: 1.5rem; }
+  .calendar__cell { font-size: 1rem !important; border-width: 2px !important; }
+  .calendar__month { font-size: 1.5rem !important; }
+  .calendar__weekday { font-size: 0.8rem !important; }
+  .calendar__week { gap: 4px; margin-bottom: 4px; }
+  .calendar__weekdays { gap: 4px; }
   .card { padding: 1rem; }
 }
