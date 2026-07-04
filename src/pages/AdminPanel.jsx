@@ -257,7 +257,7 @@ export default function AdminPanel() {
         {showDevicePrompt && (
           <Card className="admin-device-prompt" style={{ marginBottom: "2rem" }}>
             <h3 style={{ fontSize: "1.5rem", marginBottom: "0.5rem" }}>🔐 هويتك يا أدمن</h3>
-            <p style={{ marginBottom: "1rem", opacity: 0.9 }}>اكتب اسمك علشان نعرف مين هزأ مين على الواتس (مثلاً: سالح، أحمد...)</p>
+            <p style={{ marginBottom: "1rem", opacity: 0.9 }}>اكتب اسمك علشان نعرف مين هزأ مين على الواتس (مثلاً: صالح، أحمد...)</p>
             <div style={{ display: "flex", gap: "1rem", alignItems: "center" }}>
               <Input
                 id="admin_device_name"
