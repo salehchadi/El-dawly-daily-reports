@@ -113,7 +113,7 @@ export default function AdminPanel() {
 
   // Filter User Management
   const filteredUsers = allUsers.filter(u => {
-    const matchesSearch = (u[0] || "").toLowerCase().includes(searchQuery.toLowerCase()) || (u[2] || "").includes(searchQuery);
+    const matchesSearch = String(u[0] || "").toLowerCase().includes(searchQuery.toLowerCase()) || String(u[2] || "").includes(searchQuery);
     const matchesStatus = statusFilter === "all" ? true : u[4] === statusFilter;
     return matchesSearch && matchesStatus;
   });
@@ -266,7 +266,7 @@ export default function AdminPanel() {
                         ) : "مفيش تقرير"}
                       </td>
                       <td>
-                        <a href={`https://wa.me/${(u.whatsapp || "").replace(/[^0-9]/g, "")}`} target="_blank" rel="noopener noreferrer" className="btn btn--primary" style={{ padding: "0.5rem 1rem", textDecoration: "none" }}>
+                        <a href={`https://wa.me/${String(u.whatsapp || "").replace(/[^0-9]/g, "")}`} target="_blank" rel="noopener noreferrer" className="btn btn--primary" style={{ padding: "0.5rem 1rem", textDecoration: "none" }}>
                           <MessageCircle size={16} /> {u.status === "green" ? "شجعه ع الواتس" : "هزأه ع الواتس"}
                         </a>
                       </td>
@@ -354,7 +354,7 @@ export default function AdminPanel() {
                         <Button variant="ghost" onClick={() => handleResetPassword(u[0])}>
                           <Key size={16} /> باسورد
                         </Button>
-                        <a href={`https://wa.me/${(u[2] || "").replace(/[^0-9]/g, "")}`} target="_blank" rel="noopener noreferrer" className="btn btn--primary" style={{ padding: "0.5rem 1rem", textDecoration: "none" }}>
+                        <a href={`https://wa.me/${String(u[2] || "").replace(/[^0-9]/g, "")}`} target="_blank" rel="noopener noreferrer" className="btn btn--primary" style={{ padding: "0.5rem 1rem", textDecoration: "none" }}>
                           <MessageCircle size={16} /> رسالة
                         </a>
                       </td>
