@@ -128,9 +128,9 @@ export default function Leaderboard() {
   // ─── Loading state ──────────────────────────────────────
   if (loading) {
     return (
-      <div className="leaderboard" style={{ height: "100vh", display: "flex", justifyContent: "center", alignItems: "center", background: "var(--color-warning)", flexDirection: "column", gap: "1rem" }}>
-        <Trophy size={64} style={{ animation: "pulse 1s infinite alternate" }} />
-        <h1 style={{ fontSize: "2.5rem", fontWeight: 900, animation: "pulse 1s infinite alternate" }}>
+      <div className="leaderboard" style={{ height: "100vh", padding: "2rem", display: "flex", justifyContent: "center", alignItems: "center", background: "var(--color-warning)", flexDirection: "column", gap: "1rem", textAlign: "center" }}>
+        <Trophy size={64} style={{ animation: "pulse 1s infinite alternate", flexShrink: 0 }} />
+        <h1 style={{ fontSize: "clamp(1.5rem, 6vw, 2.5rem)", fontWeight: 900, animation: "pulse 1s infinite alternate", margin: 0 }}>
           جاري تحميل الليدربورد...
         </h1>
       </div>
@@ -140,10 +140,10 @@ export default function Leaderboard() {
   // ─── Error state ────────────────────────────────────────
   if (error) {
     return (
-      <div className="leaderboard" style={{ padding: "2rem", direction: "rtl", fontFamily: "var(--font)" }}>
-        <Card>
-          <p style={{ fontSize: "2rem", color: "var(--color-danger)", fontWeight: 900 }}>❌ {error}</p>
-          <button className="btn btn--primary" onClick={() => window.location.reload()} style={{ marginTop: "1rem" }}>
+      <div className="leaderboard" style={{ padding: "1rem", direction: "rtl", fontFamily: "var(--font)", minHeight: "100vh", display: "flex", alignItems: "center", justifyContent: "center" }}>
+        <Card style={{ textAlign: "center", width: "100%", maxWidth: "400px" }}>
+          <p style={{ fontSize: "clamp(1.2rem, 5vw, 2rem)", color: "var(--color-danger)", fontWeight: 900 }}>❌ {error}</p>
+          <button className="btn btn--primary" onClick={() => window.location.reload()} style={{ marginTop: "1.5rem", width: "100%" }}>
             حاول تاني
           </button>
         </Card>
