@@ -33,8 +33,8 @@ function ProtectedRoute({ children, adminOnly = false }) {
 export default function App() {
   return (
     <AuthProvider>
-      <ChaosEngine />
       <BrowserRouter>
+        <ChaosEngine />
         <Routes>
           {/* Public */}
           <Route path="/login" element={<Login />} />

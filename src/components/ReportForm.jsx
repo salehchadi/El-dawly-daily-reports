@@ -170,7 +170,7 @@ export default function ReportForm({ onReportSubmitted }) {
           <Send size={16} />
           سجل كفاحك
         </Button>
-        <Button onClick={handleSubmitExcuse} loading={loadingExcuse} variant="danger" style={{ flex: "1 1 auto" }}>
+        <Button type="button" onClick={handleSubmitExcuse} loading={loadingExcuse} variant="danger" style={{ flex: "1 1 auto" }}>
           <MessageSquareWarning size={16} />
           سجل عذرك البليد
         </Button>

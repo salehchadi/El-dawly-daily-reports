@@ -21,15 +21,20 @@ import { getRandomEmptyQuote } from "../utils/quotes";
 export default function ProgressChart({ reports = [] }) {
   // Build last-7-day data
   const today = new Date();
+
+  const getLocalString = (dVal) => {
+    const d = new Date(dVal);
+    return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
+  };
+
   const last7 = [];
   for (let i = 6; i >= 0; i--) {
     const d = new Date(today);
     d.setDate(d.getDate() - i);
-    const iso = d.toISOString().split("T")[0];
+    const iso = getLocalString(d);
     const dayLabel = d.toLocaleDateString("en-US", { weekday: "short", month: "short", day: "numeric" });
     const match = reports.find((r) => {
-      // Handle both date objects and strings
-      const rDate = typeof r.date === "string" ? r.date : new Date(r.date).toISOString().split("T")[0];
+      const rDate = getLocalString(r.date);
       return rDate === iso;
     });
     last7.push({

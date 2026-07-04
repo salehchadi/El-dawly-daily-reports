@@ -29,7 +29,7 @@ export default function AdminPanel() {
     try {
       setLoading(true);
       const result = await apiRequest("getAdminData", {
-        adminUsername: user.username,
+        adminUsername: user?.username,
       });
       setData(result);
     } catch (err) {
@@ -39,9 +39,19 @@ export default function AdminPanel() {
     }
   };
 
+  const safeFormatDate = (val) => {
+    try {
+      if (!val) return "—";
+      if (typeof val === "string") return val.split("T")[0];
+      return new Date(val).toISOString().split("T")[0];
+    } catch { return "—"; }
+  };
+
   useEffect(() => {
-    fetchAdmin();
-  }, [user.username]);
+    if (user?.username) {
+      fetchAdmin();
+    }
+  }, [user?.username]);
 
   const handleAction = async (targetUsername, action) => {
     if (action === "delete" && !window.confirm(`هل أنت متأكد من حذف ${targetUsername} نهائياً؟`)) return;
@@ -103,7 +113,7 @@ export default function AdminPanel() {
 
   // Filter User Management
   const filteredUsers = allUsers.filter(u => {
-    const matchesSearch = u[0].toLowerCase().includes(searchQuery.toLowerCase()) || u[2].includes(searchQuery);
+    const matchesSearch = (u[0] || "").toLowerCase().includes(searchQuery.toLowerCase()) || (u[2] || "").includes(searchQuery);
     const matchesStatus = statusFilter === "all" ? true : u[4] === statusFilter;
     return matchesSearch && matchesStatus;
   });
@@ -187,7 +197,7 @@ export default function AdminPanel() {
                       <tr key={i}>
                         <td style={{ fontWeight: 900 }}>{u[0]}</td>
                         <td style={{ direction: "ltr", textAlign: "right" }}>{u[2]}</td>
-                        <td>{typeof u[3] === "string" ? u[3].split("T")[0] : new Date(u[3]).toISOString().split("T")[0]}</td>
+                        <td>{safeFormatDate(u[3])}</td>
                         <td>
                           <Button variant="primary" onClick={() => handleAction(u[0], "approve")}>
                             <Check size={16} /> فّعل البطل
@@ -256,7 +266,7 @@ export default function AdminPanel() {
                         ) : "مفيش تقرير"}
                       </td>
                       <td>
-                        <a href={`https://wa.me/${u.whatsapp.replace(/[^0-9]/g, "")}`} target="_blank" rel="noopener noreferrer" className="btn btn--primary" style={{ padding: "0.5rem 1rem", textDecoration: "none" }}>
+                        <a href={`https://wa.me/${(u.whatsapp || "").replace(/[^0-9]/g, "")}`} target="_blank" rel="noopener noreferrer" className="btn btn--primary" style={{ padding: "0.5rem 1rem", textDecoration: "none" }}>
                           <MessageCircle size={16} /> {u.status === "green" ? "شجعه ع الواتس" : "هزأه ع الواتس"}
                         </a>
                       </td>
@@ -344,7 +354,7 @@ export default function AdminPanel() {
                         <Button variant="ghost" onClick={() => handleResetPassword(u[0])}>
                           <Key size={16} /> باسورد
                         </Button>
-                        <a href={`https://wa.me/${u[2].replace(/[^0-9]/g, "")}`} target="_blank" rel="noopener noreferrer" className="btn btn--primary" style={{ padding: "0.5rem 1rem", textDecoration: "none" }}>
+                        <a href={`https://wa.me/${(u[2] || "").replace(/[^0-9]/g, "")}`} target="_blank" rel="noopener noreferrer" className="btn btn--primary" style={{ padding: "0.5rem 1rem", textDecoration: "none" }}>
                           <MessageCircle size={16} /> رسالة
                         </a>
                       </td>

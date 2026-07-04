@@ -157,7 +157,6 @@ export default function CalendarView({ reports = [], deadlines = [], onExcuseSub
               }
 
               const dateStr = `${year}-${String(month + 1).padStart(2, "0")}-${String(day).padStart(2, "0")}`;
-              const cellDate = new Date(dateStr);
               const report = reportMap[dateStr];
               const dayDeadlines = deadlinesMap[dateStr] || [];
               

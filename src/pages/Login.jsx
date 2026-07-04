@@ -53,6 +53,8 @@ export default function Login() {
         } else {
           setToast({ message: "الأكونت لسه متفعلش من الإدارة، اصبر شوية.", type: "warning" });
         }
+      } else if (err.message === "ACCOUNT_SUSPENDED") {
+        setToast({ message: "الأكونت بتاعك متوقف من الإدارة. تواصل مع الأدمن.", type: "error" });
       } else {
         setToast({ message: err.message || "Something went wrong", type: "error" });
       }

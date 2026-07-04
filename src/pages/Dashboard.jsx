@@ -32,7 +32,7 @@ export default function Dashboard() {
     } finally {
       setLoadingData(false);
     }
-  }, [user.username]);
+  }, [user?.username]);
 
   useEffect(() => {
     fetchData();
@@ -155,6 +155,11 @@ export default function Dashboard() {
               <Deadlines deadlines={deadlines} onUpdate={fetchData} />
             </Card>
           </div>
+
+          {/* Weekly Progress Chart */}
+          <Card>
+            <ProgressChart reports={reports} />
+          </Card>
 
           {/* THE BIG CALENDAR DOWN */}
           <Card style={{ padding: "2rem", border: "6px solid #000", boxShadow: "12px 12px 0px var(--color-accent)" }}>
