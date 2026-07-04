@@ -8,7 +8,7 @@ import ReportForm from "../components/ReportForm";
 import ProgressChart from "../components/ProgressChart";
 import CalendarView from "../components/CalendarView";
 import Deadlines from "../components/Deadlines";
-import { LogOut, Shield, Flame, BookOpen } from "lucide-react";
+import { LogOut, Shield, Flame, BookOpen, Trophy } from "lucide-react";
 
 export default function Dashboard() {
   const { user, logout } = useAuth();
@@ -88,6 +88,9 @@ export default function Dashboard() {
           <span className="dashboard__brand-text">يوميات الدولي</span>
         </div>
         <nav className="dashboard__nav" style={{ display: "flex", gap: "1rem" }}>
+          <button className="btn" onClick={() => navigate("/leaderboard")} style={{ background: "var(--color-success)", color: "#000" }}>
+            <Trophy size={16} /> المتصدرين 🏆
+          </button>
           {user.isAdmin && (
             <button className="btn btn--warning" onClick={() => navigate("/admin")}>
               <Shield size={16} /> الإدارة

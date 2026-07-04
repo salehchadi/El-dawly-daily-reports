@@ -3,6 +3,7 @@ import { AuthProvider, useAuth } from "./context/AuthContext";
 import Login from "./pages/Login";
 import Dashboard from "./pages/Dashboard";
 import AdminPanel from "./pages/AdminPanel";
+import Leaderboard from "./pages/Leaderboard";
 import ChaosEngine from "./components/ChaosEngine";
 
 /**
@@ -38,6 +39,7 @@ export default function App() {
         <Routes>
           {/* Public */}
           <Route path="/login" element={<Login />} />
+          <Route path="/leaderboard" element={<Leaderboard />} />
 
           {/* Protected — User */}
           <Route

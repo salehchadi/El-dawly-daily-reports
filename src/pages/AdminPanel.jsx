@@ -7,7 +7,7 @@ import Card from "../components/ui/Card";
 import Button from "../components/ui/Button";
 import Input from "../components/ui/Input";
 import Toast from "../components/ui/Toast";
-import { ArrowLeft, Users, Clock, Shield, BookOpen, MessageCircle, Key, Check, Search } from "lucide-react";
+import { ArrowLeft, Users, Clock, Shield, BookOpen, MessageCircle, Key, Check, Search, Trophy, User } from "lucide-react";
 
 export default function AdminPanel() {
   const { user } = useAuth();
@@ -24,6 +24,13 @@ export default function AdminPanel() {
   // User Management filters
   const [searchQuery, setSearchQuery] = useState("");
   const [statusFilter, setStatusFilter] = useState("all"); // "all", "pending", "approved"
+
+  // WhatsApp tracking
+  const [adminDevice, setAdminDevice] = useState(localStorage.getItem("eldawly_admin_device") || "");
+  const [showDevicePrompt, setShowDevicePrompt] = useState(!localStorage.getItem("eldawly_admin_device"));
+  const [whatsappSentData, setWhatsappSentData] = useState([]);
+  const [whatsappLoading, setWhatsappLoading] = useState({});
+  const [deviceInput, setDeviceInput] = useState("");
 
   const fetchAdmin = async () => {
     try {
@@ -60,6 +67,72 @@ export default function AdminPanel() {
       fetchAdmin();
     }
   }, [user?.username]);
+
+  // Fetch WhatsApp sent data when date changes
+  const fetchWhatsAppSent = async () => {
+    if (!adminDevice || !user?.username) return;
+    try {
+      const result = await apiRequest("getWhatsAppSent", {
+        adminUsername: user.username,
+        date: overviewDate
+      });
+      setWhatsappSentData(result.records || []);
+    } catch (err) {
+      console.error("Failed to fetch WhatsApp data:", err);
+    }
+  };
+
+  useEffect(() => {
+    if (adminDevice && user?.username) {
+      fetchWhatsAppSent();
+    }
+  }, [overviewDate, adminDevice, user?.username]);
+
+  // Toggle WhatsApp sent status
+  const handleToggleWhatsApp = async (targetUsername) => {
+    if (!adminDevice) {
+      setShowDevicePrompt(true);
+      return;
+    }
+
+    const isCurrentlySent = whatsappSentData.some(
+      r => r.targetUsername === targetUsername && r.adminDevice === adminDevice
+    );
+
+    setWhatsappLoading(prev => ({ ...prev, [targetUsername]: true }));
+
+    try {
+      if (isCurrentlySent) {
+        await apiRequest("unmarkWhatsAppSent", {
+          adminUsername: user.username,
+          date: overviewDate,
+          targetUsername,
+          adminDevice
+        });
+      } else {
+        await apiRequest("markWhatsAppSent", {
+          adminUsername: user.username,
+          date: overviewDate,
+          targetUsername,
+          adminDevice
+        });
+      }
+      await fetchWhatsAppSent();
+    } catch (err) {
+      setToast({ message: err.message, type: "error" });
+    } finally {
+      setWhatsappLoading(prev => ({ ...prev, [targetUsername]: false }));
+    }
+  };
+
+  const saveAdminDevice = () => {
+    const name = deviceInput.trim();
+    if (!name) return;
+    localStorage.setItem("eldawly_admin_device", name);
+    setAdminDevice(name);
+    setShowDevicePrompt(false);
+    setToast({ message: `تم الحفظ يا ${name} 🎉`, type: "success" });
+  };
 
   const handleAction = async (targetUsername, action) => {
     if (action === "delete" && !window.confirm(`هل أنت متأكد من حذف ${targetUsername} نهائياً؟`)) return;
@@ -162,8 +235,16 @@ export default function AdminPanel() {
         <div className="dashboard__brand">
           <BookOpen size={24} />
           <span className="dashboard__brand-text">الإدارة العليا</span>
+          {adminDevice && !showDevicePrompt && (
+            <span className="admin-device-indicator">
+              <User size={14} /> {adminDevice}
+            </span>
+          )}
         </div>
-        <nav className="dashboard__nav">
+        <nav className="dashboard__nav" style={{ display: "flex", gap: "1rem" }}>
+          <button className="btn" onClick={() => navigate("/leaderboard")} style={{ background: "var(--color-success)", color: "#000" }}>
+            <Trophy size={16} /> المتصدرين
+          </button>
           <button className="btn btn--warning" onClick={() => navigate("/dashboard")}>
             <ArrowLeft size={16} style={{ transform: "rotate(180deg)" }} /> رجوع للميدان
           </button>
@@ -171,7 +252,28 @@ export default function AdminPanel() {
       </header>
 
       <main className="dashboard__main" style={{ padding: "2rem", maxWidth: "1200px", margin: "0 auto" }}>
-        
+
+        {/* Admin Device Prompt */}
+        {showDevicePrompt && (
+          <Card className="admin-device-prompt" style={{ marginBottom: "2rem" }}>
+            <h3 style={{ fontSize: "1.5rem", marginBottom: "0.5rem" }}>🔐 هويتك يا أدمن</h3>
+            <p style={{ marginBottom: "1rem", opacity: 0.9 }}>اكتب اسمك علشان نعرف مين هزأ مين على الواتس (مثلاً: سالح، أحمد...)</p>
+            <div style={{ display: "flex", gap: "1rem", alignItems: "center" }}>
+              <Input
+                id="admin_device_name"
+                placeholder="اسمك هنا..."
+                value={deviceInput}
+                onChange={(e) => setDeviceInput(e.target.value)}
+                onKeyDown={(e) => e.key === "Enter" && saveAdminDevice()}
+                style={{ flex: 1, margin: 0 }}
+              />
+              <Button variant="warning" onClick={saveAdminDevice}>
+                حفظ ✅
+              </Button>
+            </div>
+          </Card>
+        )}
+
         <section style={{ display: "flex", gap: "2rem", marginBottom: "2rem", flexWrap: "wrap" }}>
           <Card style={{ flex: "1 1 300px", textAlign: "center", background: "var(--color-dark)", color: "#fff" }}>
             <Users size={32} style={{ color: "var(--color-warning)", marginBottom: "0.5rem" }} />
@@ -256,6 +358,7 @@ export default function AdminPanel() {
                     <th>الحالة</th>
                     <th>الاسم</th>
                     <th>التقرير</th>
+                    <th>هزأته؟ ✅</th>
                     <th>أكشن</th>
                   </tr>
                 </thead>
@@ -273,16 +376,43 @@ export default function AdminPanel() {
                           <div style={{ fontWeight: "bold" }}>{u.report[4]} ساعات - {u.report[3]}</div>
                         ) : "مفيش تقرير"}
                       </td>
+                      <td style={{ textAlign: "center", verticalAlign: "middle" }}>
+                        {(() => {
+                          const sentByMe = whatsappSentData.some(
+                            r => r.targetUsername === u.username && r.adminDevice === adminDevice
+                          );
+                          const sentByOthers = whatsappSentData.filter(
+                            r => r.targetUsername === u.username && r.adminDevice !== adminDevice
+                          );
+                          return (
+                            <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: "0.2rem" }}>
+                              <input
+                                type="checkbox"
+                                className="whatsapp-checkbox"
+                                checked={sentByMe}
+                                onChange={() => handleToggleWhatsApp(u.username)}
+                                disabled={whatsappLoading[u.username] || !adminDevice}
+                                title={sentByMe ? "✅ هزأته" : "لسه مهزأتوش"}
+                              />
+                              {sentByOthers.map((s, si) => (
+                                <span key={si} className="whatsapp-sent-by">
+                                  ✅ {s.adminDevice}
+                                </span>
+                              ))}
+                            </div>
+                          );
+                        })()}
+                      </td>
                       <td>
                         <a href={`https://wa.me/${formatWhatsApp(u.whatsapp)}`} target="_blank" rel="noopener noreferrer" className="btn btn--primary" style={{ padding: "0.5rem 1rem", textDecoration: "none" }}>
-                          <MessageCircle size={16} /> {u.status === "green" ? "شجعه ع الواتس" : "هزأه ع الواتس"}
+                          <MessageCircle size={16} /> {u.status === "green" ? "شجعه" : "هزأه"}
                         </a>
                       </td>
                     </tr>
                   ))}
                   {overviewData.length === 0 && (
                     <tr>
-                      <td colSpan="4" style={{ textAlign: "center", padding: "2rem", fontWeight: "bold" }}>مفيش حد مطابق للبحث</td>
+                      <td colSpan="5" style={{ textAlign: "center", padding: "2rem", fontWeight: "bold" }}>مفيش حد مطابق للبحث</td>
                     </tr>
                   )}
                 </tbody>

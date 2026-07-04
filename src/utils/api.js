@@ -3,7 +3,7 @@
 // ============================================================
 // Replace this URL with your deployed Google Apps Script Web App URL.
 // Deploy > New Deployment > Web App > Execute as Me > Anyone
-const API_URL = "https://script.google.com/macros/s/AKfycbx7hkZ_CNYrgZ1Gkhyy-JvhTzV1HodLBIoAmzewDwdT2mzVAJAx97jtrGAxHA94y6_gOw/exec";
+const API_URL = "https://script.google.com/macros/s/AKfycbzB6QyhjD0ks8yB7risKvkaTRs28pfCMyndF0ZQB6AusLnlgegoKGV2Y_VdmNGJbt0PHA/exec";
 
 /**
  * Send an action + payload to the Google Apps Script backend.
