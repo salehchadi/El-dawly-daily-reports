@@ -4,7 +4,7 @@ import { useAuth } from "../context/AuthContext";
 import Button from "../components/ui/Button";
 import Input from "../components/ui/Input";
 import Toast from "../components/ui/Toast";
-import { LogIn, UserPlus, BookOpen, Trophy } from "lucide-react";
+import { LogIn, UserPlus, BookOpen } from "lucide-react";
 
 /**
  * Login / Signup page.
@@ -133,17 +133,6 @@ export default function Login() {
             )}
           </Button>
         </form>
-
-        {/* Leaderboard link */}
-        <div style={{ textAlign: "center", marginTop: "1.5rem", borderTop: "3px dashed #000", paddingTop: "1rem" }}>
-          <button
-            className="btn"
-            onClick={() => navigate("/leaderboard")}
-            style={{ background: "var(--color-success)", color: "#000", width: "100%", fontSize: "1.2rem" }}
-          >
-            <Trophy size={20} /> شوف مين متصدر 🏆
-          </button>
-        </div>
       </div>
 
       {toast && <Toast message={toast.message} type={toast.type} onClose={() => setToast(null)} />}

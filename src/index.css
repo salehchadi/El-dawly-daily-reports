@@ -510,10 +510,10 @@ a:hover { background: var(--color-warning); color: var(--color-dark); }
 }
 
 /* ─── DATA TABLE ────────────────────────────────────────── */
-.table-wrapper { overflow-x: auto; border: var(--border-thick); background: #fff; }
-.data-table { width: 100%; border-collapse: collapse; }
-.data-table th, .data-table td { padding: 1rem; text-align: left; border-bottom: 3px solid var(--color-dark); border-right: 3px solid var(--color-dark); font-size: 1.1rem; font-weight: 700; }
-.data-table th { background: var(--color-warning); font-weight: 900; text-transform: uppercase; }
+.table-wrapper { overflow-x: auto; border: var(--border-thick); background: #fff; width: 100%; -webkit-overflow-scrolling: touch; }
+.data-table { width: 100%; border-collapse: collapse; min-width: 600px; }
+.data-table th, .data-table td { padding: 1rem; text-align: right; border-bottom: 3px solid var(--color-dark); border-right: 3px solid var(--color-dark); font-size: 1.1rem; font-weight: 700; }
+.data-table th { background: var(--color-warning); font-weight: 900; text-transform: uppercase; white-space: nowrap; }
 .data-table tr:hover { background: #f0f0f0; }
 
 /* ─── RESPONSIVE ────────────────────────────────────────── */

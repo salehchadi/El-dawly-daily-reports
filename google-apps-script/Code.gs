@@ -596,7 +596,7 @@ function handleMarkWhatsAppSent(payload) {
   // Check if already marked by this device
   for (var i = 1; i < data.length; i++) {
     if (
-      data[i][1] === payload.date &&
+      formatDate(data[i][1]) === payload.date &&
       data[i][2] === payload.targetUsername &&
       data[i][3] === payload.adminDevice
     ) {
@@ -628,7 +628,7 @@ function handleUnmarkWhatsAppSent(payload) {
   // Search from bottom to top to avoid row-shift issues
   for (var i = data.length - 1; i >= 1; i--) {
     if (
-      data[i][1] === payload.date &&
+      formatDate(data[i][1]) === payload.date &&
       data[i][2] === payload.targetUsername &&
       data[i][3] === payload.adminDevice
     ) {
@@ -651,7 +651,7 @@ function handleGetWhatsAppSent(payload) {
 
   var records = [];
   for (var i = 1; i < data.length; i++) {
-    if (data[i][1] === payload.date) {
+    if (formatDate(data[i][1]) === payload.date) {
       records.push({
         targetUsername: data[i][2],
         adminDevice: data[i][3],
