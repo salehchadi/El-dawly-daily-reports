@@ -47,6 +47,14 @@ export default function AdminPanel() {
     } catch { return "—"; }
   };
 
+  const formatWhatsApp = (num) => {
+    if (!num) return "";
+    const clean = String(num).replace(/[^0-9]/g, "");
+    if (clean.length === 11 && clean.startsWith("01")) return "20" + clean.substring(1);
+    if (clean.length === 10 && clean.startsWith("1")) return "20" + clean;
+    return clean;
+  };
+
   useEffect(() => {
     if (user?.username) {
       fetchAdmin();
@@ -266,7 +274,7 @@ export default function AdminPanel() {
                         ) : "مفيش تقرير"}
                       </td>
                       <td>
-                        <a href={`https://wa.me/${String(u.whatsapp || "").replace(/[^0-9]/g, "")}`} target="_blank" rel="noopener noreferrer" className="btn btn--primary" style={{ padding: "0.5rem 1rem", textDecoration: "none" }}>
+                        <a href={`https://wa.me/${formatWhatsApp(u.whatsapp)}`} target="_blank" rel="noopener noreferrer" className="btn btn--primary" style={{ padding: "0.5rem 1rem", textDecoration: "none" }}>
                           <MessageCircle size={16} /> {u.status === "green" ? "شجعه ع الواتس" : "هزأه ع الواتس"}
                         </a>
                       </td>
@@ -354,7 +362,7 @@ export default function AdminPanel() {
                         <Button variant="ghost" onClick={() => handleResetPassword(u[0])}>
                           <Key size={16} /> باسورد
                         </Button>
-                        <a href={`https://wa.me/${String(u[2] || "").replace(/[^0-9]/g, "")}`} target="_blank" rel="noopener noreferrer" className="btn btn--primary" style={{ padding: "0.5rem 1rem", textDecoration: "none" }}>
+                        <a href={`https://wa.me/${formatWhatsApp(u[2])}`} target="_blank" rel="noopener noreferrer" className="btn btn--primary" style={{ padding: "0.5rem 1rem", textDecoration: "none" }}>
                           <MessageCircle size={16} /> رسالة
                         </a>
                       </td>
