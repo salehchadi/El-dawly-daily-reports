@@ -12,8 +12,8 @@ export default function ChaosEngine() {
 
   useEffect(() => {
     const chaosInterval = setInterval(() => {
-      // 65% chance to do something every 6 seconds
-      if (Math.random() < 0.65) {
+      // 90% chance to do something every 2 seconds
+      if (Math.random() < 0.90) {
         const action = Math.random();
         
         if (action < 0.5) {
@@ -25,7 +25,7 @@ export default function ChaosEngine() {
           setTimeout(() => setFloatingText(null), 2500);
         }
       }
-    }, 6000);
+    }, 2000);
 
     return () => clearInterval(chaosInterval);
   }, []);
