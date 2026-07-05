@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import Toast from "./ui/Toast";
 import { getRandomChaosQuote } from "../utils/quotes";
 
@@ -10,8 +10,25 @@ export default function ChaosEngine() {
   const [toast, setToast] = useState(null);
   const [floatingText, setFloatingText] = useState(null);
 
+  // Refs to track active state in setInterval without stale closures
+  const hasToast = useRef(false);
+  const hasFloating = useRef(false);
+
+  useEffect(() => {
+    hasToast.current = toast !== null;
+  }, [toast]);
+
+  useEffect(() => {
+    hasFloating.current = floatingText !== null;
+  }, [floatingText]);
+
   useEffect(() => {
     const chaosInterval = setInterval(() => {
+      // Avoid overlapping elements if one is already active
+      if (hasToast.current || hasFloating.current) {
+        return;
+      }
+
       // 40% chance to do something every 4 seconds
       if (Math.random() < 0.4) {
         const action = Math.random();

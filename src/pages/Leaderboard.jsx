@@ -3,7 +3,6 @@ import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import { apiRequest } from "../utils/api";
 import Card from "../components/ui/Card";
-import ChaosEngine from "../components/ChaosEngine";
 import { Trophy, Flame, Star, Clock, ArrowLeft, LogIn, BookOpen } from "lucide-react";
 
 // ─── Sort options ──────────────────────────────────────────
@@ -153,7 +152,6 @@ export default function Leaderboard() {
 
   return (
     <div className="leaderboard" style={{ direction: "rtl", fontFamily: "var(--font)", minHeight: "100vh" }}>
-      <ChaosEngine />
 
       {/* ─── Header ──────────────────────────────────────── */}
       <header className="dashboard__header">
