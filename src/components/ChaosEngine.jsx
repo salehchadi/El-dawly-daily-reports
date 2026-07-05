@@ -12,8 +12,8 @@ export default function ChaosEngine() {
 
   useEffect(() => {
     const chaosInterval = setInterval(() => {
-      // 90% chance to do something every 2 seconds
-      if (Math.random() < 0.90) {
+      // 75% chance to do something every 2 seconds
+      if (Math.random() < 0.75) {
         const action = Math.random();
         
         if (action < 0.5) {
