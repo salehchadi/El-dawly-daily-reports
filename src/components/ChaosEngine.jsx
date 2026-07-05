@@ -12,10 +12,10 @@ export default function ChaosEngine() {
 
   useEffect(() => {
     const chaosInterval = setInterval(() => {
-      // 75% chance to do something every 2 seconds
-      if (Math.random() < 0.75) {
+      // 50% chance to do something every 2 seconds
+      if (Math.random() < 0.5) {
         const action = Math.random();
-        
+
         if (action < 0.5) {
           // Trigger a random error-styled toast
           setToast({ message: getRandomChaosQuote(), type: "error" });
@@ -33,14 +33,14 @@ export default function ChaosEngine() {
   return (
     <>
       {toast && (
-        <Toast 
-          message={toast.message} 
-          type={toast.type} 
-          onClose={() => setToast(null)} 
-          duration={4000} 
+        <Toast
+          message={toast.message}
+          type={toast.type}
+          onClose={() => setToast(null)}
+          duration={4000}
         />
       )}
-      
+
       {floatingText && (
         <div style={{
           position: "fixed",
